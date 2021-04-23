@@ -1,0 +1,10 @@
+{
+    "prefix": "!",
+    "db": {
+        "host": "",
+        "username": "",
+        "password": "",
+        "database": ""
+    },
+    "bottoken": "N"
+}
