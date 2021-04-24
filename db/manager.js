@@ -32,9 +32,8 @@ module.exports = {
     createDatabaseProfile() {
         if(!this.isconnected) return;
         return new Promise((resolve, reject) => {
-            con.query("CREATE TABLE IF NOT EXISTS discord_connector (name VARCHAR(255), uuid VARCHAR(255), disid VARCHAR(255), role VARCHAR(255), date VARCHAR(255))", function (err, result) {
+            con.query("CREATE TABLE IF NOT EXISTS discord_connector (name VARCHAR(255), uuid VARCHAR(255), disid VARCHAR(255), distag VARCHAR(255), role VARCHAR(255), date VARCHAR(255))", function (err, result) {
                 if (err) reject(err);
-                console.log("[DB] Database created");
                 resolve(result);
             });
         });
@@ -42,18 +41,43 @@ module.exports = {
     fetchPlayer(playername) {
         if(!this.isconnected) return;
         return new Promise((resolve, reject) => {
-            con.query("SELECT * FROM discord_connector WHERE name=" + playername, function (err, result, fields) {
+            con.query("SELECT * FROM discord_connector WHERE name='" + playername + "'", function (err, result, fields) {
                 if (err) reject(err);
-                console.log("[DB] Database created");
+                if(result == undefined) reject();
                 resolve(result);
             });
         });
     },
-    createUserTemplate() {
 
+    fetchPlayerFromDisTag(id) {
+        if(!this.isconnected) return;
+        console.log(id);
+        return new Promise((resolve, reject) => {
+            con.query("SELECT * FROM discord_connector WHERE disTag='" + id + "'", function (err, result, fields) {
+                if (err) reject(err);
+                if(result == undefined) reject();
+                resolve(result);
+            });
+        });
     },
-    deleteUserTemplate() {
 
+    defineDisId(playername, disid) {
+        if(!this.isconnected) return;
+        return new Promise((resolve, reject) => {
+            con.query("UPDATE discord_connector SET disid='" + disid + "' WHERE name='" + playername + "'", function (err, result, fields) {
+                if (err) reject(err);
+                resolve(result);
+            });
+        });
+    },
+    deleteUserTemplate(id) {
+        if(!this.isconnected) return;
+        return new Promise((resolve, reject) => {
+            con.query("DELETE FROM discord_connector WHERE disid='" + id + "'", function (err, result, fields) {
+                if (err) reject(err);
+                resolve(result);
+            });
+        });
     },
     isconnected() {
         return (con == undefined);

@@ -1,12 +1,18 @@
 {
     "roles": [
         {
-            "name": "goblin",
-            "id": ""
+            "name": "Goblin",
+            "role": {
+                "id": "835163485410164808",
+                "name": "Goblin"
+            }
         },
         {
-            "name": "elves",
-            "id": ""
+            "name": "Elves",
+            "role": {
+                "id": "835163751669956681",
+                "name": "Goblin"
+            }
         }
     ]
 }
