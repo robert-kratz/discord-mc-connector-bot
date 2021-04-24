@@ -51,7 +51,6 @@ module.exports = {
 
     fetchPlayerFromDisTag(id) {
         if(!this.isconnected) return;
-        console.log(id);
         return new Promise((resolve, reject) => {
             con.query("SELECT * FROM discord_connector WHERE disTag='" + id + "'", function (err, result, fields) {
                 if (err) reject(err);

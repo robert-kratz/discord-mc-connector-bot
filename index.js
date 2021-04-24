@@ -48,12 +48,23 @@ client.on("message", (event) => {
 	if(command === "unverify") {
 		if(args.length == 0) {
 			manager.fetchPlayerFromDisTag(event.author.tag).then((res) => {
-				console.log(res);
-				if(res[0] == undefined || res[0].name === undefined) return event.reply(`This user cannot be unverified.`);
+				if(res[0] == undefined || res[0].name === undefined) return event.reply(`You cannot be unverified.`);
 
 				if(res[0].disid === "null") return event.reply('This account is not verified yet');
 
 				event.reply('You successfully unverified your account');
+
+				client.guilds.cache.forEach((element) => {
+					const role = element.roles.cache.find(role => role.name === res[0].role);
+					if(role != undefined) {
+						element.members.cache.forEach(memeber => {
+							if(memeber.id === event.member.id) {
+								memeber.roles.remove(role);
+							}
+						});
+					}
+				});
+
 				manager.deleteUserTemplate(event.author.id);
 			});
 		} else {
